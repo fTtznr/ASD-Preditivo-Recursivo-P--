@@ -24,6 +24,11 @@ int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado 
 int falhar(Buffer *buffer);
 void sinalizarErro(Buffer* buffer, char *msg);
 
+void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void programa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void dc_v(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+
+
 
 /* Conjunto de Variáveis Globais*/
 
@@ -57,13 +62,13 @@ int main()
     FILE *saidaAnaliseLexica = initArquivo(ARQUIVO_SAIDA, "w");
     
 
-    /*Leitura do Arquivo de Entrada*/
+    /*Leitura do Arquivo de Entrada
     while(!leituraFinalizada(buffer)) 
     {
-            /*Analisador Léxico*/
+            /*Analisador Léxico
             analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
             
-            /*Ao consumir comentários ou chegar ao fim de arquivo o Analisador Léxico retorna uma cadeia vazia, então devemos ignorá-la*/
+            /*Ao consumir comentários ou chegar ao fim de arquivo o Analisador Léxico retorna uma cadeia vazia, então devemos ignorá-la
             
             if(strcmp(cadeia,"")) 
                     if(fprintf(saidaAnaliseLexica, "\n%s", cadeia) < 0) printf("Erro na escrita do Arquivo de Saída!");;
@@ -71,7 +76,7 @@ int main()
             if(strcmp(valorLexico, ""))
                     if(fprintf(saidaAnaliseLexica, ", %s", valorLexico) < 0) printf("Erro na escrita do Arquivo de Saída!");
             
-            /*Mensagens de Erro*/
+            /*Mensagens de Erro
             if(erro) 
             {
                     if(fprintf(saidaAnaliseLexica, " %s na Linha %d", msgErro, linhaErro) < 0) printf("Erro na escrita do Arquivo de Saída!");;
@@ -79,18 +84,21 @@ int main()
             }
 
     }
+    */
+    
+    asd(buffer, tabelaPalavrasSimbolosReservados);
 
     /*Liberação de memória das estruturas utilizadas*/
     destruirBuffer(buffer);
     destruirTabelaPalavrasSimbolosReservados(tabelaPalavrasSimbolosReservados);
     fecharArquivo(saidaAnaliseLexica);
 
-    /*Impressão do Arquivo de Saída*/
+    /*Impressão do Arquivo de Saída
     printf("Análise Léxica concluída. \nDeseja imprimir o Arquivo de saída da Análise Léxica? (S/N) ");
     scanf(" %c", &resposta);
 
     if(toupper(resposta) == 'S') imprimirArquivo(ARQUIVO_SAIDA);
-    
+    */
     
     return 0;
 
@@ -587,4 +595,80 @@ void sinalizarErro(Buffer* buffer, char *msg)
     erro = ERRO;                        /*Sinaliza a flag de erro*/
     strcpy(msgErro, msg);               /*Registra a mensagem de erro*/
     linhaErro = buffer->contadorLinhas; /*Registra a linha em que o erro ocorreu*/
+}
+
+
+
+
+
+
+void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+	//Obter Símbolo
+    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	
+    programa(buffer, tabelaPalavrasSimbolosReservados);
+	
+    if(leituraFinalizada(buffer))
+	   printf("\nSucesso!!"); //SUCESSO
+	//else ERRO;
+
+}
+
+
+
+void programa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{}
+
+
+
+void dc_v(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    
+    if (strcmp(cadeia, "var") != 0) 
+        return;
+	
+    if (strcmp(cadeia, "var") == 0) 
+        //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	//else ERRO;
+	
+    if (strcmp(valorLexico, "Identificador") == 0) 
+    {
+		//Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+
+		while(strcmp(cadeia, ",") == 0)
+        {
+			//Obter Símbolo
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+			
+            if (strcmp(valorLexico, "Identificador") == 0) 
+                //Obter Símbolo
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+            //else ERRO;
+
+        }
+
+    }        
+	//else ERRO;
+	
+    if (strcmp(cadeia, ":") == 0) 
+        //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	//else ERRO;
+	
+    if( (strcmp(cadeia, "real") == 0) || (strcmp(cadeia, "integer") == 0) )
+        //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	//else ERRO;
+	
+    if (strcmp(cadeia, ";") == 0) 
+        //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	//else ERRO;
+	
+    if( (!leituraFinalizada(buffer)) && (strcmp(cadeia, "var") == 0) )
+        dc_v(buffer, tabelaPalavrasSimbolosReservados);
+
 }
