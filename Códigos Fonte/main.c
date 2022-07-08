@@ -367,7 +367,7 @@ int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado 
                     break;
 
             case 17:
-                    if(isalpha(simbolo) || isdigit(simbolo)) estado = 17;
+                    if(isalpha(simbolo) || isdigit(simbolo) || simbolo == '_') estado = 17;
                     
                     else if 
                     (
