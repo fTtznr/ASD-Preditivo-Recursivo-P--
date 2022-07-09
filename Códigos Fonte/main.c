@@ -26,8 +26,22 @@ void sinalizarErro(Buffer* buffer, char *msg);
 
 void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
 void programa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void corpo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void dc_c(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
 void dc_v(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-
+void dc_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void parametros(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void lista_par(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void corpo_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void lista_arg(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void pfalsa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void comandos(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void cmd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void x(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void condicao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void expressao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void termo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void fator(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
 
 
 /* Conjunto de Variáveis Globais*/
@@ -86,6 +100,7 @@ int main()
     }
     */
     
+    /*Analisador Sintático*/
     asd(buffer, tabelaPalavrasSimbolosReservados);
 
     /*Liberação de memória das estruturas utilizadas*/
@@ -599,76 +614,535 @@ void sinalizarErro(Buffer* buffer, char *msg)
 
 
 
-
-
-
 void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
 {
-	//Obter Símbolo
-    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
 	
     programa(buffer, tabelaPalavrasSimbolosReservados);
 	
     if(leituraFinalizada(buffer))
 	   printf("\nSucesso!!"); //SUCESSO
-	//else ERRO;
+    else printf("\nFalha!!"); //ERRO
 
 }
 
 
 
 void programa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
-{}
+{
+     
+     if (strcmp(cadeia, "program") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+     //else ERRO;
+	
+    if (strcmp(valorLexico, "Identificador") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    if (strcmp(cadeia, ";") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    corpo(buffer, tabelaPalavrasSimbolosReservados);
+	
+    if (strcmp(cadeia, ".") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+
+}
+
+
+
+void corpo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+        dc_c(buffer, tabelaPalavrasSimbolosReservados);
+        dc_v(buffer, tabelaPalavrasSimbolosReservados);
+        dc_p(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "begin") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        comandos(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "end") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+}
+
+
+
+void dc_c(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    if(strcmp(cadeia, "const") != 0) return;
+    else 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+	
+    if(strcmp(valorLexico, "Identificador") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo        
+    //else ERRO;
+	
+    if(strcmp(cadeia, "=") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    if( (strcmp(valorLexico, "Número Inteiro") == 0) || (strcmp(valorLexico, "Número Real") == 0) )
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    if (strcmp(cadeia, ";") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    dc_c(buffer, tabelaPalavrasSimbolosReservados);
+
+}
 
 
 
 void dc_v(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
 {
     
-    if (strcmp(cadeia, "var") != 0) 
-        return;
+    if (strcmp(cadeia, "var") != 0) return;
 	
     if (strcmp(cadeia, "var") == 0) 
-        //Obter Símbolo
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
-	//else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
 	
     if (strcmp(valorLexico, "Identificador") == 0) 
     {
-		//Obter Símbolo
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
 
-		while(strcmp(cadeia, ",") == 0)
+	while(strcmp(cadeia, ",") == 0)
         {
-			//Obter Símbolo
-            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+	
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
 			
             if (strcmp(valorLexico, "Identificador") == 0) 
-                //Obter Símbolo
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
             //else ERRO;
 
         }
 
     }        
-	//else ERRO;
+    //else ERRO;
 	
     if (strcmp(cadeia, ":") == 0) 
-        //Obter Símbolo
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
-	//else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
 	
     if( (strcmp(cadeia, "real") == 0) || (strcmp(cadeia, "integer") == 0) )
-        //Obter Símbolo
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
-	//else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
 	
     if (strcmp(cadeia, ";") == 0) 
-        //Obter Símbolo
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
-	//else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
 	
-    if( (!leituraFinalizada(buffer)) && (strcmp(cadeia, "var") == 0) )
+    dc_v(buffer, tabelaPalavrasSimbolosReservados);
+
+}
+
+
+
+void dc_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    if(strcmp(cadeia, "procedure") != 0) return;
+    else 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+	
+    if(strcmp(valorLexico, "Identificador") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo        
+    //else ERRO;
+	
+    parametros(buffer, tabelaPalavrasSimbolosReservados);
+
+    if (strcmp(cadeia, ";") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+
+    corpo_p(buffer, tabelaPalavrasSimbolosReservados);
+	
+    dc_p(buffer, tabelaPalavrasSimbolosReservados);
+
+}
+
+
+
+void parametros(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    if(strcmp(cadeia, "(") != 0) return;
+    else 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+	
+    lista_par(buffer, tabelaPalavrasSimbolosReservados);
+	
+    if (strcmp(cadeia, ")") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+
+}
+
+
+
+void lista_par(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    if (strcmp(valorLexico, "Identificador") == 0) 
+    {
+	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+	while(strcmp(cadeia, ",") == 0)
+        {
+	
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+			
+            if (strcmp(valorLexico, "Identificador") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+            //else ERRO;
+
+        }
+
+    }        
+    //else ERRO;
+	
+    if (strcmp(cadeia, ":") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    if( (strcmp(cadeia, "real") == 0) || (strcmp(cadeia, "integer") == 0) )
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+	
+    if (strcmp(cadeia, ";") == 0) 
+    {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        lista_par(buffer, tabelaPalavrasSimbolosReservados);
+
+    }
+    
+}
+
+
+
+void corpo_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
         dc_v(buffer, tabelaPalavrasSimbolosReservados);
 
+        if (strcmp(cadeia, "begin") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        comandos(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "end") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        if(strcmp(cadeia, ";") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+}
+
+
+
+void lista_arg(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    
+    if(strcmp(cadeia, "(") != 0) return;
+    else 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+    if (strcmp(valorLexico, "Identificador") == 0) 
+    {
+	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+	while(strcmp(cadeia, ";") == 0)
+        {
+	
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+			
+            if (strcmp(valorLexico, "Identificador") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+            //else ERRO;
+
+        }
+
+    }        
+    //else ERRO;
+	
+    if (strcmp(cadeia, ")") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+    
+}
+
+
+
+void pfalsa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    if(strcmp(cadeia, "else") != 0) return;
+    else 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+    cmd(buffer, tabelaPalavrasSimbolosReservados);
+
+}
+
+
+
+void comandos(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+    
+    /*Verifica se a cadeia fornecida pelo Analisador Léxico está no conjunto primeiro de <cmd>*/
+    if
+    (
+        strcmp(cadeia, "read") != 0 &&
+        strcmp(cadeia, "write") != 0 &&
+        strcmp(cadeia, "while") != 0 &&
+        strcmp(cadeia, "for") != 0 &&
+        strcmp(cadeia, "if") != 0 &&
+        strcmp(cadeia, "begin") != 0 &&
+        strcmp(valorLexico, "Identificador") != 0
+    
+    ) return;
+    
+    cmd(buffer, tabelaPalavrasSimbolosReservados);
+
+    if(strcmp(cadeia, ";") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    //else ERRO;
+
+    comandos(buffer, tabelaPalavrasSimbolosReservados);
+
+}
+
+
+
+void cmd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+     /*Comandos read e write*/
+     if( strcmp(cadeia, "read") == 0 || strcmp(cadeia, "write") == 0 )
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+        if(strcmp(cadeia, "(") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO; 
+
+
+        /*<variaveis>*/
+        if (strcmp(valorLexico, "Identificador") == 0) 
+        {
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+                while(strcmp(cadeia, ",") == 0)
+                {
+                
+                        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+                                        
+                        if (strcmp(valorLexico, "Identificador") == 0) 
+                                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+                        //else ERRO;
+
+                }
+
+        }        
+        //else ERRO;
+
+
+        if(strcmp(cadeia, ")") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+        
+     }
+
+     /*Comando while*/
+     else if(strcmp(cadeia, "while") == 0)
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+
+        if(strcmp(cadeia, "(") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO; 
+
+        condicao(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, ")") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        if(strcmp(cadeia, "do") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        cmd(buffer, tabelaPalavrasSimbolosReservados);
+        
+     }
+
+     
+     /*Comando for*/
+     else if(strcmp(cadeia, "for") == 0)
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+
+        if(strcmp(valorLexico, "Identificador") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        if(strcmp(cadeia, ":=") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        expressao(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "to") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        expressao(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "do") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        cmd(buffer, tabelaPalavrasSimbolosReservados);
+        
+     }
+
+     /*Comando if*/
+     else if(strcmp(cadeia, "if") == 0)
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+
+        condicao(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "then") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+
+        cmd(buffer, tabelaPalavrasSimbolosReservados);
+
+        pfalsa(buffer, tabelaPalavrasSimbolosReservados);
+        
+     }
+
+     else if(strcmp(valorLexico, "Identificador") == 0)
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+
+        x(buffer, tabelaPalavrasSimbolosReservados);
+        
+     }
+
+     else if(strcmp(cadeia, "begin") == 0)
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+
+        comandos(buffer, tabelaPalavrasSimbolosReservados);
+
+        if(strcmp(cadeia, "end") == 0) 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        //else ERRO;
+        
+     }
+
+     //else ERRO;
+
+}
+
+
+
+void x(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+     if(strcmp(cadeia, ":=") == 0)
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        expressao(buffer, tabelaPalavrasSimbolosReservados);
+     }
+     else lista_arg(buffer, tabelaPalavrasSimbolosReservados);
+}
+
+
+
+void condicao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+        expressao(buffer, tabelaPalavrasSimbolosReservados);
+
+        if
+        (
+                strcmp(cadeia, "=")  == 0  ||
+                strcmp(cadeia, "<>") == 0  ||
+                strcmp(cadeia, ">=") == 0  ||
+                strcmp(cadeia, "<=") == 0  ||
+                strcmp(cadeia, ">")  == 0  ||
+                strcmp(cadeia, "<")  == 0 
+        
+        ) analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        
+        //else ERRO;
+
+        expressao(buffer, tabelaPalavrasSimbolosReservados);
+
+}
+
+
+
+void expressao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+     termo(buffer, tabelaPalavrasSimbolosReservados);  
+
+     if( strcmp(cadeia, "+") == 0 || strcmp(cadeia, "-") == 0 )
+     {
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        expressao(buffer, tabelaPalavrasSimbolosReservados);
+     }
+
+}
+
+
+
+void termo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+     if( strcmp(cadeia, "+") == 0 || strcmp(cadeia, "-") == 0 )
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        
+     fator(buffer, tabelaPalavrasSimbolosReservados);    
+
+}
+
+
+
+void fator(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+{
+        if
+        (
+                strcmp(valorLexico, "Identificador")  == 0  ||
+                strcmp(valorLexico, "Número Inteiro") == 0  ||
+                strcmp(valorLexico, "Número Real") == 0  
+        
+        ) analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+
+        else if(strcmp(cadeia, "(") == 0)
+        {
+               
+               analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+
+               expressao(buffer, tabelaPalavrasSimbolosReservados);
+
+               if( strcmp(cadeia, ")") == 0 || strcmp(cadeia, "-") == 0 )
+                        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+               //else ERRO;
+
+        }
+
+        //else ERRO;
+        
+        if( strcmp(cadeia, "*") == 0 || strcmp(cadeia, "/") == 0 )
+        {
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+                fator(buffer, tabelaPalavrasSimbolosReservados);
+        }
+                        
 }
