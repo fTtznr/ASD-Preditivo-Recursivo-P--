@@ -8,7 +8,7 @@
 /*Constantes de manipulação de arquivos*/
 #define TAMANHO_BUFFER 4096
 #define TAMANHO_NOME_ARQUIVO 30
-#define ARQUIVO_SAIDA "Analise Lexica.txt"
+#define ARQUIVO_SAIDA "Analise Sintática.txt"
 
 /*Constantes para tratamento de transições do Autômato que representa o Analisador Léxico*/
 #define ESTADO_FINAL -5
@@ -18,30 +18,40 @@
 #define ERRO 1
 #define IDENTIFICADO 0
 
+/*Constantes para tratamento de erros na Análise Léxica*/
+#define SEGUIDOR_LOCAL 0
+#define SEGUIDOR_PAI 1
 
-void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
 int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
 int falhar(Buffer *buffer);
 void sinalizarErro(Buffer* buffer, char *msg);
 
-void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void programa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void corpo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void dc_c(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void dc_v(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void dc_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void parametros(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void lista_par(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void corpo_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void lista_arg(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void pfalsa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void comandos(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void cmd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void x(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void condicao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void expressao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void termo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
-void fator(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
+/*Procedimentos do Analisador Sintático Descendente Preditivo Recursivo*/
+void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void programa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void corpo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void dc_c(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void dc_v(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void dc_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void parametros(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void lista_par(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void corpo_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void lista_arg(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void pfalsa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void comandos(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void cmd(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void x(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void condicao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void expressao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void termo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void fator(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+
+int erroSintatico(char* msg, char **conjuntoSincronizacaoLocal, int tamanhoConjuntoLocal, char **conjuntoSincronizacaoPai, int tamanhoConjuntoPai, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+int buscaToken(char **conjuntoSincronizacao, int tamanhoConjunto, char *token);
+char** criarSeguidor(char **seguidor, int tamanhoSeguidor, char** conjuntoAdicional, int tamanhoAdicional);
+void delSeguidor(char**seguidor, int tamanhoSeguidor);
+
 
 
 /* Conjunto de Variáveis Globais*/
@@ -73,47 +83,21 @@ int main()
     palavraSimboloReservado **tabelaPalavrasSimbolosReservados = initTabelaPalavrasSimbolosReservados();
 
     /*Inicialização do Arquivo de Saída da Análise Léxica*/
-    FILE *saidaAnaliseLexica = initArquivo(ARQUIVO_SAIDA, "w");
-    
-
-    /*Leitura do Arquivo de Entrada
-    while(!leituraFinalizada(buffer)) 
-    {
-            /*Analisador Léxico
-            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados);
-            
-            /*Ao consumir comentários ou chegar ao fim de arquivo o Analisador Léxico retorna uma cadeia vazia, então devemos ignorá-la
-            
-            if(strcmp(cadeia,"")) 
-                    if(fprintf(saidaAnaliseLexica, "\n%s", cadeia) < 0) printf("Erro na escrita do Arquivo de Saída!");;
-            
-            if(strcmp(valorLexico, ""))
-                    if(fprintf(saidaAnaliseLexica, ", %s", valorLexico) < 0) printf("Erro na escrita do Arquivo de Saída!");
-            
-            /*Mensagens de Erro
-            if(erro) 
-            {
-                    if(fprintf(saidaAnaliseLexica, " %s na Linha %d", msgErro, linhaErro) < 0) printf("Erro na escrita do Arquivo de Saída!");;
-                    erro = IDENTIFICADO;
-            }
-
-    }
-    */
+    FILE *saida = initArquivo(ARQUIVO_SAIDA, "w");
     
     /*Analisador Sintático*/
-    asd(buffer, tabelaPalavrasSimbolosReservados);
+    asd(buffer, tabelaPalavrasSimbolosReservados, saida);
 
     /*Liberação de memória das estruturas utilizadas*/
     destruirBuffer(buffer);
     destruirTabelaPalavrasSimbolosReservados(tabelaPalavrasSimbolosReservados);
-    fecharArquivo(saidaAnaliseLexica);
+    fecharArquivo(saida);
 
-    /*Impressão do Arquivo de Saída
-    printf("Análise Léxica concluída. \nDeseja imprimir o Arquivo de saída da Análise Léxica? (S/N) ");
+    /*Impressão do Arquivo de Saída*/
+    printf("\nDeseja imprimir o relatório de erros detectados na Análise Sintática? (S/N) ");
     scanf(" %c", &resposta);
 
     if(toupper(resposta) == 'S') imprimirArquivo(ARQUIVO_SAIDA);
-    */
     
     return 0;
 
@@ -128,11 +112,12 @@ int main()
 
                 buffer: Buffer do Arquivo de Entrada
                 tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: arquivo de saida com identificação e mensagens de erro
 
         Retorno:
 
 */
-void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
  
     char simbolo;       /*Símbolo lido do Buffer*/
@@ -155,7 +140,24 @@ void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSi
         /*Próximo símbolo da cadeia*/
         simbolo = lerBuffer(buffer);
      
-     } 
+     }
+
+      /*Ao consumir comentários ou chegar ao fim de arquivo o Analisador Léxico retorna uma cadeia vazia, então devemos ignorá-la*/
+      /*      
+      if(strcmp(cadeia,"")) 
+                if(fprintf(saida, "\n%s", cadeia) < 0) printf("Erro na escrita do Arquivo de Saída!");;
+            
+      if(strcmp(valorLexico, ""))
+                if(fprintf(saida, ", %s", valorLexico) < 0) printf("Erro na escrita do Arquivo de Saída!");
+            
+      */
+
+      /*Mensagens de Erro do Analisador Léxico*/
+      if(erro) 
+      {
+                if(fprintf(saida, "\n%s na Linha %d", msgErro, linhaErro) < 0) printf("\nErro na escrita do Arquivo de Saída!");;
+                erro = IDENTIFICADO;
+      } 
 
 }
 
@@ -228,7 +230,7 @@ int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado 
                     strcpy(valorLexico,"");
 
                     /*Sinalização de Erro*/
-                    sinalizarErro(buffer, "\nErro: fim de arquivo inesperado");
+                    sinalizarErro(buffer, "\nErro Léxico: fim de arquivo inesperado");
                    
                     estado = ESTADO_FINAL;
                    
@@ -444,7 +446,7 @@ int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado 
                     strcpy(valorLexico, "Identificador");
 
                     /*Sinalização de erro*/
-                    sinalizarErro(buffer, "Erro: identificador mal formado");
+                    sinalizarErro(buffer, "Erro Léxico: identificador mal formado");
                     
                     estado = ESTADO_FINAL;
                     
@@ -514,7 +516,7 @@ int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado 
                     strcpy(valorLexico,"");
                     
                     /*Sinalização de Erro*/
-                    sinalizarErro(buffer, "Erro: número real mal formado");
+                    sinalizarErro(buffer, "Erro Léxico: número real mal formado");
                     
                     estado = ESTADO_FINAL;
                     
@@ -526,7 +528,7 @@ int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado 
                     if(simbolo != EOF)
                     {
                         /*Sinalização de erro*/
-                        sinalizarErro(buffer, "Erro: caractere inesperado");
+                        sinalizarErro(buffer, "Erro Léxico: caractere inesperado");
                         
                         strcpy(cadeia,getToken(buffer));
                         strcpy(valorLexico, "");
@@ -614,210 +616,607 @@ void sinalizarErro(Buffer* buffer, char *msg)
 
 
 
-void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo Inicial
 	
-    programa(buffer, tabelaPalavrasSimbolosReservados);
+    programa(NULL, 0, buffer, tabelaPalavrasSimbolosReservados, saida); //Primeira Regra da Gramática
 	
     if(leituraFinalizada(buffer))
-	   printf("\nSucesso!!"); //SUCESSO
-    else printf("\nFalha!!"); //ERRO
+	printf("\nAnálise Sintática concluída com sucesso!"); 
+    else 
+        printf("\nAnálise Sintática não concluída!");
 
 }
 
 
 
-void programa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void programa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-     
-     if (strcmp(cadeia, "program") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-     //else ERRO;
+
+    if (strcmp(cadeia, "program") == 0) 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+        /*Erro Sintático*/
+
+        int tamanhoSeguidoreLocais = 1;
+        char *seguidoresLocais[1] = {"Identificador"};
+
+        if( erroSintatico("\nErro Sintático: program esperado", seguidoresLocais, tamanhoSeguidoreLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                return;
+    }
 	
+
     if (strcmp(valorLexico, "Identificador") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+        /*Erro Sintático*/
+
+        int tamanhoSeguidoreLocais = 1;
+        char *seguidoresLocais[1] = {";"};
+
+        if( erroSintatico("\nErro Sintático: identificador de programa esperado", seguidoresLocais, tamanhoSeguidoreLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                return;
+    }
 	
+
     if (strcmp(cadeia, ";") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+        /*Erro Sintático*/
+
+        int tamanhoSeguidoresLocais = 4;
+        char *seguidoresLocais[4] = {"const", "var", "procedure", "begin"}; // Primeiro(corpo)
+
+        if( erroSintatico("\nErro Sintático: ponto e vírgula esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                return;
+    }
+
 	
-    corpo(buffer, tabelaPalavrasSimbolosReservados);
+    //<corpo>
+    
+    int tamanhoSeguidoresLocais = 1;
+    char *seguidoresLocais[1] = {"."};
+
+    char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+    int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+    corpo(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
 	
+    delSeguidor(s, tamanhoS);
+
+
+    // Ponto
+
     if (strcmp(cadeia, ".") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+
+        /*Erro Sintático*/
+
+        /*Tratamento de Erro Sintático*/
+        if( erroSintatico("\nErro Sintático: ponto esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                return;
+
+     }
 
 }
 
 
 
-void corpo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void corpo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-        dc_c(buffer, tabelaPalavrasSimbolosReservados);
-        dc_v(buffer, tabelaPalavrasSimbolosReservados);
-        dc_p(buffer, tabelaPalavrasSimbolosReservados);
+
+        //<dc_c>
+    
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 1;
+        char *seguidoresLocais[1] = {"var"}; //Primeiro(dc_v)
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        dc_c(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
+        
+        //<dc_v>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais2 = 1;
+        char *seguidoresLocais2[1] = {"procedure"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais2, tamanhoSeguidoresLocais2);
+        tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais2;
+
+        /*Chamada de Procedimento*/
+        dc_v(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+        
+        
+        //<dc_p>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais3 = 1;
+        char *seguidoresLocais3[1] = {"begin"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais3, tamanhoSeguidoresLocais3);
+        tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais3;
+
+        /*Chamada de Procedimento*/
+        dc_p(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+        
 
         if(strcmp(cadeia, "begin") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        comandos(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 7;
+                char *seguidoresLocais[7] = {"read", "write", "while", "for", "if", "Identificador", "begin"}; // Primeiro(comandos)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: begin esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+
+        //<comandos>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais4 = 1;
+        char *seguidoresLocais4[1] = {"end"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais4, tamanhoSeguidoresLocais4);
+        tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais4;
+
+        /*Chamada de Procedimento*/
+        comandos(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
 
         if(strcmp(cadeia, "end") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+
+                /*Erro Sintático*/
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: end esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+
+        }
 
 }
 
 
 
-void dc_c(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void dc_c(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "const") != 0) return;
     else 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 	
+
     if(strcmp(valorLexico, "Identificador") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo        
-    //else ERRO;
-	
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo        
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {"="}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
+
+
     if(strcmp(cadeia, "=") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
-	
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 2;
+	char *seguidoresLocais[2] = {"Número Inteiro", "Número Real"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: sinal de igual esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
+
+
     if( (strcmp(valorLexico, "Número Inteiro") == 0) || (strcmp(valorLexico, "Número Real") == 0) )
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {";"};
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: número inteiro ou real esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
     if (strcmp(cadeia, ";") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+
+        /*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {"const"}; //Primeiro(dc_c)
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: ponto e vírgula esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+
+    }
 	
-    dc_c(buffer, tabelaPalavrasSimbolosReservados);
+    dc_c(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
 }
 
 
 
-void dc_v(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void dc_v(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
     if (strcmp(cadeia, "var") != 0) return;
 	
-    if (strcmp(cadeia, "var") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+    else 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 	
     if (strcmp(valorLexico, "Identificador") == 0) 
     {
-	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
 	while(strcmp(cadeia, ",") == 0)
         {
 	
-            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 			
             if (strcmp(valorLexico, "Identificador") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-            //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+            else
+            {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 2;
+                char *seguidoresLocais[2] = {",", ":"};
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+            }
 
         }
 
     }        
-    //else ERRO;
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {":"};
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
+
     if (strcmp(cadeia, ":") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 2;
+	char *seguidoresLocais[2] = {"real", "integer"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: dois pontos esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
+
+
     if( (strcmp(cadeia, "real") == 0) || (strcmp(cadeia, "integer") == 0) )
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {";"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: real ou integer esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
+
     if (strcmp(cadeia, ";") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {"var"}; // Primeiro(dc_v)
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: ponto e vírgula esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
-    dc_v(buffer, tabelaPalavrasSimbolosReservados);
+
+    dc_v(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
 }
 
 
 
-void dc_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void dc_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "procedure") != 0) return;
     else 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 	
     if(strcmp(valorLexico, "Identificador") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo        
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo        
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {"("}; // Primeiro(parametros)
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
-    parametros(buffer, tabelaPalavrasSimbolosReservados);
+
+    //<parametros>
+    
+    /*Seguidores Locais*/
+    int tamanhoSeguidoresLocais = 1;
+    char *seguidoresLocais[1] = {";"};
+
+    /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+    char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+    int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+    /*Chamada de Procedimento*/
+    parametros(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+	
+    delSeguidor(s, tamanhoS);
+
+
 
     if (strcmp(cadeia, ";") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
 
-    corpo_p(buffer, tabelaPalavrasSimbolosReservados);
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 2;
+	char *seguidoresLocais[2] = {"var", "begin"}; // Primeiro(corpo_p)
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: ponto e vírgula esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+     }
+
+
+
+    //<corpo_p>
+    
+    /*Seguidores Locais*/
+    int tamanhoSeguidoresLocais2 = 1;
+    char *seguidoresLocais2[1] = {"procedure"}; //Primeiro(dc_p)
+
+    /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+    s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais2, tamanhoSeguidoresLocais2);
+    tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais2;
+
+    /*Chamada de Procedimento*/
+    corpo_p(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
 	
-    dc_p(buffer, tabelaPalavrasSimbolosReservados);
+    delSeguidor(s, tamanhoS);
+
+   
+    dc_p(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
 }
 
 
 
-void parametros(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void parametros(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "(") != 0) return;
     else 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 	
-    lista_par(buffer, tabelaPalavrasSimbolosReservados);
+
+    //<lista_par>
+    
+    /*Seguidores Locais*/
+    int tamanhoSeguidoresLocais = 1;
+    char *seguidoresLocais[1] = {")"};
+
+    /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+    char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+    int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+    /*Chamada de Procedimento*/
+    lista_par(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
 	
+    delSeguidor(s, tamanhoS);
+
+
+
     if (strcmp(cadeia, ")") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    { 
+
+        /*Erro Sintático*/
+
+        /*Tratamento de Erro Sintático*/
+        if( erroSintatico("\nErro Sintático: fecha parentese esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                return;
+
+     }
+
 
 }
 
 
 
-void lista_par(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void lista_par(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if (strcmp(valorLexico, "Identificador") == 0) 
     {
-	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
 	while(strcmp(cadeia, ",") == 0)
         {
 	
-            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 			
             if (strcmp(valorLexico, "Identificador") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-            //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+            else
+            {
+    
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 2;
+                char *seguidoresLocais[2] = {",", ":"};
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+    
+            }
 
         }
 
     }        
-    //else ERRO;
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {":"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
+
     if (strcmp(cadeia, ":") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 2;
+	char *seguidoresLocais[2] = {"real", "integer"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: dois pontos esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
+
     if( (strcmp(cadeia, "real") == 0) || (strcmp(cadeia, "integer") == 0) )
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {";"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: real ou integer esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
 	
     if (strcmp(cadeia, ";") == 0) 
     {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        lista_par(buffer, tabelaPalavrasSimbolosReservados);
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        lista_par(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
     }
     
@@ -825,159 +1224,400 @@ void lista_par(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosR
 
 
 
-void corpo_p(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void corpo_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-        dc_v(buffer, tabelaPalavrasSimbolosReservados);
+
+        //<dc_v>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 1;
+        char *seguidoresLocais[1] = {"begin"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        dc_v(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
+
 
         if (strcmp(cadeia, "begin") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        comandos(buffer, tabelaPalavrasSimbolosReservados);
+               /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 7;
+                char *seguidoresLocais[7] = {"read", "write", "while", "for", "if", "Identificador", "begin"}; // Primeiro(comandos)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: begin esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }       
+
+
+        //<comandos>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais2 = 1;
+        char *seguidoresLocais2[1] = {"end"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais2, tamanhoSeguidoresLocais2);
+        tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais2;
+
+        /*Chamada de Procedimento*/
+        comandos(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
 
         if(strcmp(cadeia, "end") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 1;
+                char *seguidoresLocais[1] = {";"}; 
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: end esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
 
         if(strcmp(cadeia, ";") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: ponto e vírgula esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
 
 }
 
 
 
-void lista_arg(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void lista_arg(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
     if(strcmp(cadeia, "(") != 0) return;
     else 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
     if (strcmp(valorLexico, "Identificador") == 0) 
     {
-	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+	analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
 	while(strcmp(cadeia, ";") == 0)
         {
 	
-            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 			
             if (strcmp(valorLexico, "Identificador") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-            //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+            else
+            {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 2;
+                char *seguidoresLocais[2] = {";", ")"};
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+            }
 
         }
 
-    }        
-    //else ERRO;
-	
+    }  
+
+    else
+    {
+    
+	/*Erro Sintático*/
+
+	/*Seguidores Locais*/
+	int tamanhoSeguidoresLocais = 1;
+	char *seguidoresLocais[1] = {")"}; 
+
+	/*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    }
+
+
+    // Fecha Parentese
     if (strcmp(cadeia, ")") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+    
+	/*Erro Sintático*/
+
+        /*Tratamento de Erro Sintático*/
+	if( erroSintatico("\nErro Sintático: fecha parentese esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+		return;
+    
+    } 
     
 }
 
 
 
-void pfalsa(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void pfalsa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "else") != 0) return;
     else 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
-    cmd(buffer, tabelaPalavrasSimbolosReservados);
+    cmd(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
 }
 
 
 
-void comandos(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void comandos(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
     /*Verifica se a cadeia fornecida pelo Analisador Léxico está no conjunto primeiro de <cmd>*/
     if
     (
-        strcmp(cadeia, "read") != 0 &&
-        strcmp(cadeia, "write") != 0 &&
-        strcmp(cadeia, "while") != 0 &&
-        strcmp(cadeia, "for") != 0 &&
-        strcmp(cadeia, "if") != 0 &&
-        strcmp(cadeia, "begin") != 0 &&
-        strcmp(valorLexico, "Identificador") != 0
+        strcmp(cadeia, "read")                  != 0 &&
+        strcmp(cadeia, "write")                 != 0 &&
+        strcmp(cadeia, "while")                 != 0 &&
+        strcmp(cadeia, "for")                   != 0 &&
+        strcmp(cadeia, "if")                    != 0 &&
+        strcmp(cadeia, "begin")                 != 0 &&
+        strcmp(valorLexico, "Identificador")    != 0
     
     ) return;
+
+
+    //<cmd>
     
-    cmd(buffer, tabelaPalavrasSimbolosReservados);
+    /*Seguidores Locais*/
+    int tamanhoSeguidoresLocais = 1;
+    char *seguidoresLocais[1] = {";"};
+
+    /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+    char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+    int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+    /*Chamada de Procedimento*/
+    cmd(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+	
+    delSeguidor(s, tamanhoS);
+
+
+    // Ponto e vírgula
 
     if(strcmp(cadeia, ";") == 0) 
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-    //else ERRO;
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+    else
+    {
+        
+                /*Erro Sintático*/
 
-    comandos(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 7;
+                char *seguidoresLocais[7] = {"read", "write", "while", "for", "if", "Identificador", "begin"}; // Primeiro(comandos)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: ponto e vírgula esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+     }
+
+
+    comandos(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
 }
 
 
 
-void cmd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void cmd(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
+    
      /*Comandos read e write*/
      if( strcmp(cadeia, "read") == 0 || strcmp(cadeia, "write") == 0 )
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
         if(strcmp(cadeia, "(") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO; 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 1;
+                char *seguidoresLocais[1] = {"Identificador"}; // Primeiro(variaveis)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: abre parentese esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        } 
 
 
         /*<variaveis>*/
         if (strcmp(valorLexico, "Identificador") == 0) 
         {
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
                 while(strcmp(cadeia, ",") == 0)
                 {
                 
-                        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+                        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
                                         
                         if (strcmp(valorLexico, "Identificador") == 0) 
-                                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-                        //else ERRO;
+                                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+                        else
+                        {
+                
+                                /*Erro Sintático*/
+
+                                /*Seguidores Locais*/
+                                int tamanhoSeguidoresLocais = 2;
+                                char *seguidoresLocais[2] = {",", ")"};
+
+                                /*Tratamento de Erro Sintático*/
+                                if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                                        return;
+                
+                        }
 
                 }
 
         }        
-        //else ERRO;
+        else
+        {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 1;
+                char *seguidoresLocais[1] = {")"}; 
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
 
 
         if(strcmp(cadeia, ")") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+
+                /*Erro Sintático*/
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: fecha parentese esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+
+        }
         
      }
+
 
      /*Comando while*/
      else if(strcmp(cadeia, "while") == 0)
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
 
         if(strcmp(cadeia, "(") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO; 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        condicao(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 6;
+                char *seguidoresLocais[6] = {"+", "-", "Identificador", "(", "Número Inteiro", "Número Real"}; // Primeiro(condicao)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: abre parentese esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        } 
+
+        
+        //<condicao>
+    
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 1;
+        char *seguidoresLocais[1] = {")"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        condicao(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
 
         if(strcmp(cadeia, ")") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 1;
+                char *seguidoresLocais[1]= {"do"};
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: fecha parentese esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
 
         if(strcmp(cadeia, "do") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        cmd(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 7;
+                char *seguidoresLocais[7] = {"read", "write", "while", "for", "if", "Identificador", "begin"}; // Primeiro(cmd)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: do esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+        cmd(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
         
      }
 
@@ -985,91 +1625,269 @@ void cmd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReserva
      /*Comando for*/
      else if(strcmp(cadeia, "for") == 0)
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
 
         if(strcmp(valorLexico, "Identificador") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 1;
+                char *seguidoresLocais[1] = {":="}; 
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: identificador esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
 
         if(strcmp(cadeia, ":=") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        expressao(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 6;
+                char *seguidoresLocais[6] = {"+", "-", "Identificador", "(", "Número Inteiro", "Número Real"}; // Primeiro(expressao)
 
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: sinal de atribuição esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+        //<expressao>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 1;
+        char *seguidoresLocais[1] = {"to"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        expressao(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
+        
         if(strcmp(cadeia, "to") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        expressao(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 6;
+                char *seguidoresLocais[6] = {"+", "-", "Identificador", "(", "Número Inteiro", "Número Real"}; // Primeiro(expressao)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: to esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+        
+        //<expressao>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais2 = 1;
+        char *seguidoresLocais2[1] = {"do"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais2, tamanhoSeguidoresLocais2);
+        tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais2;
+
+        /*Chamada de Procedimento*/
+        expressao(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
 
         if(strcmp(cadeia, "do") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        cmd(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 7;
+                char *seguidoresLocais[7] = {"read", "write", "while", "for", "if", "Identificador", "begin"}; // Primeiro(cmd)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: do esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+
+        cmd(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
         
      }
+
 
      /*Comando if*/
      else if(strcmp(cadeia, "if") == 0)
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
 
-        condicao(buffer, tabelaPalavrasSimbolosReservados);
+        //<condicao>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 1;
+        char *seguidoresLocais[1] = {"then"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        condicao(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+    
+
 
         if(strcmp(cadeia, "then") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        cmd(buffer, tabelaPalavrasSimbolosReservados);
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 7;
+                char *seguidoresLocais[7] = {"read", "write", "while", "for", "if", "Identificador", "begin"}; // Primeiro(cmd)
 
-        pfalsa(buffer, tabelaPalavrasSimbolosReservados);
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: then esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+        //<cmd>
+    
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais2 = 1;
+        char *seguidoresLocais2[1] = {"else"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais2, tamanhoSeguidoresLocais2);
+        tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais2;
+
+        /*Chamada de Procedimento*/
+        cmd(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
+
+        pfalsa(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
         
      }
 
+
+     //Identificador
      else if(strcmp(valorLexico, "Identificador") == 0)
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
 
-        x(buffer, tabelaPalavrasSimbolosReservados);
+        x(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
         
      }
 
+
+     //begin
      else if(strcmp(cadeia, "begin") == 0)
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
 
-        comandos(buffer, tabelaPalavrasSimbolosReservados);
+        //<comandos>
+        
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 1;
+        char *seguidoresLocais[1] = {"end"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        comandos(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
 
         if(strcmp(cadeia, "end") == 0) 
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
-        //else ERRO;
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
+        else
+        {
+
+                /*Erro Sintático*/
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: end esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+
+        }
         
      }
 
-     //else ERRO;
+
+     else
+     {
+
+        /*Erro Sintático*/
+
+        /*Tratamento de Erro Sintático*/
+        if( erroSintatico("\nErro Sintático: read, write, while, for, if, identificador ou begin esperado", NULL, 0, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                return;
+
+     }
 
 }
 
 
 
-void x(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void x(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
      if(strcmp(cadeia, ":=") == 0)
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
-        expressao(buffer, tabelaPalavrasSimbolosReservados);
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
+        expressao(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
      }
-     else lista_arg(buffer, tabelaPalavrasSimbolosReservados);
+     else lista_arg(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 }
 
 
 
-void condicao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void condicao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-        expressao(buffer, tabelaPalavrasSimbolosReservados);
 
+        //<expressao>
+    
+        /*Seguidores Locais*/
+        int tamanhoSeguidoresLocais = 6;
+        char *seguidoresLocais[6] = {"=", "<>", ">=", "<=", ">", "<"};
+
+        /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+        char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+        int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+        /*Chamada de Procedimento*/
+        expressao(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                
+        delSeguidor(s, tamanhoS);
+
+        /*Operador Relacional*/
         if
         (
                 strcmp(cadeia, "=")  == 0  ||
@@ -1079,42 +1897,68 @@ void condicao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosRe
                 strcmp(cadeia, ">")  == 0  ||
                 strcmp(cadeia, "<")  == 0 
         
-        ) analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        ) analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
         
-        //else ERRO;
+        else
+        {
 
-        expressao(buffer, tabelaPalavrasSimbolosReservados);
+                /*Erro Sintático*/
+
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 10;
+                char *seguidoresLocais[10] = {";", "else", "=", "<>", ">=",  "<=", ">", "<", ")", "then"}; // Primeiro(expressao)
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: operador relacional esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+
+        expressao(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
 
 }
 
 
 
-void expressao(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void expressao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-     termo(buffer, tabelaPalavrasSimbolosReservados);  
+    //<termo>
+    
+    /*Seguidores Locais*/
+    int tamanhoSeguidoresLocais = 2;
+    char *seguidoresLocais[2] = {"+", "-"};
+
+    /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+    char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+    int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+    /*Chamada de Procedimento*/
+    termo(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+	
+    delSeguidor(s, tamanhoS);
 
      if( strcmp(cadeia, "+") == 0 || strcmp(cadeia, "-") == 0 )
      {
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
-        expressao(buffer, tabelaPalavrasSimbolosReservados);
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
+        expressao(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
      }
 
 }
 
 
 
-void termo(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void termo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
      if( strcmp(cadeia, "+") == 0 || strcmp(cadeia, "-") == 0 )
-        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
         
-     fator(buffer, tabelaPalavrasSimbolosReservados);    
+     fator(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);    
 
 }
 
 
 
-void fator(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados)
+void fator(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
         if
         (
@@ -1122,27 +1966,188 @@ void fator(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReser
                 strcmp(valorLexico, "Número Inteiro") == 0  ||
                 strcmp(valorLexico, "Número Real") == 0  
         
-        ) analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo
+        ) analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo
 
         else if(strcmp(cadeia, "(") == 0)
         {
                
-               analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
 
-               expressao(buffer, tabelaPalavrasSimbolosReservados);
+                //<expressao>
+                
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 1;
+                char *seguidoresLocais[1] = {")"};
 
-               if( strcmp(cadeia, ")") == 0 || strcmp(cadeia, "-") == 0 )
-                        analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
-               //else ERRO;
+                /*Novo Conjunto de Seguidores que contém os Seguidores do Procedimento e os Seguidores Locais*/
+                char **s = criarSeguidor(seguidor, tamanhoSeguidor, seguidoresLocais, tamanhoSeguidoresLocais);
+                int tamanhoS = tamanhoSeguidor+tamanhoSeguidoresLocais;
+
+                /*Chamada de Procedimento*/
+                expressao(s, tamanhoS, buffer, tabelaPalavrasSimbolosReservados, saida);
+                        
+                delSeguidor(s, tamanhoS);
+
+
+                if( strcmp(cadeia, ")") == 0)
+                                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
+                else
+                {
+                
+                        /*Erro Sintático*/
+
+                        /*Seguidores Locais*/
+                        int tamanhoSeguidoresLocais = 2;
+                        char *seguidoresLocais[2] = {"*", "/"};
+
+                        /*Tratamento de Erro Sintático*/
+                        if( erroSintatico("\nErro Sintático: fecha parentese esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                                return;
+                
+                }
 
         }
+        else
+        {
+        
+                /*Erro Sintático*/
 
-        //else ERRO;
+                /*Seguidores Locais*/
+                int tamanhoSeguidoresLocais = 2;
+                char *seguidoresLocais[2] = {"*", "/"};
+
+                /*Tratamento de Erro Sintático*/
+                if( erroSintatico("\nErro Sintático: identificador, número inteiro, número real ou abre parentese esperado", seguidoresLocais, tamanhoSeguidoresLocais, seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida) )
+                        return;
+        
+        }
+        
         
         if( strcmp(cadeia, "*") == 0 || strcmp(cadeia, "/") == 0 )
         {
-                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados); //Obter Símbolo 
-                fator(buffer, tabelaPalavrasSimbolosReservados);
+                analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo 
+                fator(seguidor, tamanhoSeguidor, buffer, tabelaPalavrasSimbolosReservados, saida);
         }
                         
 }
+
+
+
+int erroSintatico(char* msg, char **conjuntoSincronizacaoLocal, int tamanhoConjuntoLocal, char **conjuntoSincronizacaoPai, int tamanhoConjuntoPai, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
+{
+        int localizacao;
+        char token[30];
+
+        if(fprintf(saida, " %s na Linha %d", msg, buffer->contadorLinhas) < 0) printf("\nErro na escrita do Arquivo de Saída!");
+
+        if
+        (       
+                strcmp(valorLexico, "Identificador")    == 0    ||
+                strcmp(valorLexico, "Número Inteiro")   == 0    ||
+                strcmp(valorLexico, "Número Real")      == 0
+        ) 
+                strcpy(token, valorLexico);
+
+        else    
+                strcpy(token, cadeia);     
+        
+
+        while(1)
+        {
+            if(buscaToken(conjuntoSincronizacaoLocal, tamanhoConjuntoLocal, token))
+            {
+                localizacao = SEGUIDOR_LOCAL;
+                break;
+            }
+            
+            if(buscaToken(conjuntoSincronizacaoPai, tamanhoConjuntoPai, token))
+            {
+                localizacao = SEGUIDOR_PAI;
+                break;
+            }
+
+            if(leituraFinalizada(buffer)) break;
+            
+            analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo  
+
+            if
+            (       
+                strcmp(valorLexico, "Identificador")    == 0    ||
+                strcmp(valorLexico, "Número Inteiro")   == 0    ||
+                strcmp(valorLexico, "Número Real")      == 0
+            ) 
+                strcpy(token, valorLexico);
+
+            else    
+                strcpy(token, cadeia);   
+                   
+        }
+
+}
+
+
+
+int buscaToken(char **conjuntoSincronizacao, int tamanhoConjunto, char *token)
+{
+        int i; /*Iterador*/
+        int encontrou = 0; /*Flag que sinaliza a presença do token no Conjunto de Sincronização*/
+
+        for(i = 0; i < tamanhoConjunto; i++)
+        {
+                if(strcmp(conjuntoSincronizacao[i], token) == 0) 
+                {
+                        encontrou = 1;
+                        break;
+                }
+        }
+
+        return encontrou;
+}
+
+
+
+char** criarSeguidor(char **seguidor, int tamanhoSeguidor, char** conjuntoAdicional, int tamanhoAdicional)
+{
+   int i; /*Iterador*/
+   char **novoSeguidor; /*novo conjunto de seguidores resultante da união de seguidor com conjunto Adicional*/
+
+   /* Alocação de memória */
+   novoSeguidor = (char **)malloc(sizeof(char*)*(tamanhoSeguidor+tamanhoAdicional));
+
+   if(novoSeguidor != NULL)
+   {
+        for(i=0; i < tamanhoSeguidor; i++)
+        {
+                novoSeguidor[i] = (char *)malloc(sizeof(char)*(strlen(seguidor[i])+1));
+                strcpy(novoSeguidor[i], seguidor[i]);
+        }
+        
+        for(i; i < tamanhoSeguidor+tamanhoAdicional; i++)
+        {
+                novoSeguidor[i] = (char *)malloc( sizeof(char)* (strlen(conjuntoAdicional[i-tamanhoSeguidor])+1) );
+                strcpy(novoSeguidor[i], conjuntoAdicional[i-tamanhoSeguidor]);
+        }
+
+   }
+   
+   return novoSeguidor;
+}
+
+
+
+void delSeguidor(char**seguidor, int tamanhoSeguidor)
+{
+        int i; /*Iterador*/
+
+        if(seguidor != NULL)
+        {
+                for(i=0; i < tamanhoSeguidor; i++)
+                        free(seguidor[i]);
+
+                free(seguidor);
+
+        }
+
+}
+
+
