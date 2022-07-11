@@ -18,40 +18,41 @@
 #define ERRO 1
 #define IDENTIFICADO 0
 
-/*Constantes para tratamento de erros na Análise Léxica*/
+/*Constantes para tratamento de erros na Análise Sintática*/
 #define SEGUIDOR_LOCAL 0
 #define SEGUIDOR_PAI 1
 
+
+/*Analisador Léxico*/
 void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
 int transicao(int estado, char simbolo, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados);
 int falhar(Buffer *buffer);
 void sinalizarErro(Buffer* buffer, char *msg);
 
-/*Procedimentos do Analisador Sintático Descendente Preditivo Recursivo*/
+/*Analisador Sintático Descendente Preditivo Recursivo*/
 void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void programa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void corpo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void dc_c(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void dc_v(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void dc_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void parametros(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void lista_par(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void corpo_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void lista_arg(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void pfalsa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void comandos(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void cmd(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void x(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void condicao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void expressao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void termo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
-void fator(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void programa   (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void corpo      (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void dc_c       (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void dc_v       (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void dc_p       (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void parametros (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void lista_par  (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void corpo_p    (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void lista_arg  (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void pfalsa     (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void comandos   (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void cmd        (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void x          (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void condicao   (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void expressao  (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void termo      (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
+void fator      (char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
 
 int erroSintatico(char* msg, char **conjuntoSincronizacaoLocal, int tamanhoConjuntoLocal, char **conjuntoSincronizacaoPai, int tamanhoConjuntoPai, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida);
 int buscaToken(char **conjuntoSincronizacao, int tamanhoConjunto, char *token);
 char** criarSeguidor(char **seguidor, int tamanhoSeguidor, char** conjuntoAdicional, int tamanhoAdicional);
 void delSeguidor(char**seguidor, int tamanhoSeguidor);
-
 
 
 /* Conjunto de Variáveis Globais*/
@@ -141,16 +142,6 @@ void analisadorLexico(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSi
         simbolo = lerBuffer(buffer);
      
      }
-
-      /*Ao consumir comentários ou chegar ao fim de arquivo o Analisador Léxico retorna uma cadeia vazia, então devemos ignorá-la*/
-      /*      
-      if(strcmp(cadeia,"")) 
-                if(fprintf(saida, "\n%s", cadeia) < 0) printf("Erro na escrita do Arquivo de Saída!");;
-            
-      if(strcmp(valorLexico, ""))
-                if(fprintf(saida, ", %s", valorLexico) < 0) printf("Erro na escrita do Arquivo de Saída!");
-            
-      */
 
       /*Mensagens de Erro do Analisador Léxico*/
       if(erro) 
@@ -616,12 +607,28 @@ void sinalizarErro(Buffer* buffer, char *msg)
 
 
 
+/*
+        Descrição:
+                Analisador Sintático Descendete Preditivo Recursivo
+
+        Parâmetros:
+                
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo Inicial
+    /*Obter Símbolo Inicial*/    
+    analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); 
 	
-    programa(NULL, 0, buffer, tabelaPalavrasSimbolosReservados, saida); //Primeira Regra da Gramática
+    /*Primeira Regra da Gramática*/
+    programa(NULL, 0, buffer, tabelaPalavrasSimbolosReservados, saida); 
 	
+    /*Resultado da Análise Sintática*/
     if(leituraFinalizada(buffer))
 	printf("\nAnálise Sintática concluída com sucesso!"); 
     else 
@@ -631,6 +638,21 @@ void asd(Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReserva
 
 
 
+/*
+        Descrição:
+                Procedimento de <programa> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void programa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
 
@@ -708,6 +730,21 @@ void programa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimbo
 
 
 
+/*
+        Descrição:
+                Procedimento de <corpo> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void corpo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
 
@@ -810,6 +847,21 @@ void corpo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloR
 
 
 
+/*
+        Descrição:
+                Procedimento de <dc_c> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void dc_c(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "const") != 0) return;
@@ -893,6 +945,21 @@ void dc_c(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloRe
 
 
 
+/*
+        Descrição:
+                Procedimento de <dc_v> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void dc_v(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
@@ -1007,6 +1074,21 @@ void dc_v(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloRe
 
 
 
+/*
+        Descrição:
+                Procedimento de <dc_p> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void dc_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "procedure") != 0) return;
@@ -1089,6 +1171,21 @@ void dc_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloRe
 
 
 
+/*
+        Descrição:
+                Procedimento de <parametros> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void parametros(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "(") != 0) return;
@@ -1131,6 +1228,21 @@ void parametros(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSim
 
 
 
+/*
+        Descrição:
+                Procedimento de <lista_par> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void lista_par(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if (strcmp(valorLexico, "Identificador") == 0) 
@@ -1224,6 +1336,21 @@ void lista_par(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimb
 
 
 
+/*
+        Descrição:
+                Procedimento de <corpo_p> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void corpo_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
 
@@ -1312,6 +1439,21 @@ void corpo_p(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimbol
 
 
 
+/*
+        Descrição:
+                Procedimento de <lista_arg> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void lista_arg(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
@@ -1383,6 +1525,21 @@ void lista_arg(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimb
 
 
 
+/*
+        Descrição:
+                Procedimento de <pfalsa> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void pfalsa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     if(strcmp(cadeia, "else") != 0) return;
@@ -1395,6 +1552,21 @@ void pfalsa(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimbolo
 
 
 
+/*
+        Descrição:
+                Procedimento de <comandos> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void comandos(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
@@ -1454,6 +1626,21 @@ void comandos(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimbo
 
 
 
+/*
+        Descrição:
+                Procedimento de <cmd> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void cmd(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     
@@ -1857,6 +2044,21 @@ void cmd(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloRes
 
 
 
+/*
+        Descrição:
+                Procedimento de <x> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void x(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
      if(strcmp(cadeia, ":=") == 0)
@@ -1869,6 +2071,21 @@ void x(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReser
 
 
 
+/*
+        Descrição:
+                Procedimento de <condicao> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void condicao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
 
@@ -1920,6 +2137,21 @@ void condicao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimbo
 
 
 
+/*
+        Descrição:
+                Procedimento de <expressao> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void expressao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
     //<termo>
@@ -1947,6 +2179,21 @@ void expressao(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimb
 
 
 
+/*
+        Descrição:
+                Procedimento de <termo> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void termo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
      if( strcmp(cadeia, "+") == 0 || strcmp(cadeia, "-") == 0 )
@@ -1958,6 +2205,21 @@ void termo(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloR
 
 
 
+/*
+        Descrição:
+                Procedimento de <fator> mapeado de seu respectivo Grafo Sintático, representando a gramática de P--
+
+        Parâmetros:
+                
+                seguidor: Conjunto de Seguidores
+                tamanhoSeguidor: número de elementos no Conjunto de Seguidores
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+
+*/
 void fator(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
         if
@@ -2033,13 +2295,38 @@ void fator(char **seguidor, int tamanhoSeguidor, Buffer *buffer, palavraSimboloR
 
 
 
+/*
+        Descrição:
+                Tratamendo de Erro Sintático utilizando o Modo de Pânico, onde caracteres são consumidos até que se encontre um token de sincronização
+                a partir do qual a Análise Sintática possa ser retomada
+
+
+        Parâmetros:
+                
+                msg: mensagem de erro
+                conjuntoSincronizacaoLocal: Conjunto de tokens de Sincronização Local 
+                tamanhoConjuntoLocal: número de elementos no Conjunto de tokens de Sincronização Local
+                conjuntoSincronizacaoPai: Conjunto de tokens de Sincronização do Pai
+                tamanhoConjuntoPai: número de elementos no Conjunto de tokens de Sincronização Pai
+                buffer: Buffer do Arquivo de Entrada
+                tabelaPalavrasSimbolosReservados: Tabela de Palavras e Símbolos Reservados
+                saida: descritor do Arquivo de Saída com relatório de Erros Léxicos e Sintáticos
+
+        Retorno:
+                Retorna a localização do token entre o Conjunto de tokens de Sincronização Local e  o Conjunto de tokens de Sincronização Pai, se nenhum
+                token de sincronização for encontrado, retorna a localização de Conjunto de tokens de Sincronização Local
+
+
+*/
 int erroSintatico(char* msg, char **conjuntoSincronizacaoLocal, int tamanhoConjuntoLocal, char **conjuntoSincronizacaoPai, int tamanhoConjuntoPai, Buffer *buffer, palavraSimboloReservado **tabelaPalavrasSimbolosReservados, FILE *saida)
 {
-        int localizacao;
-        char token[30];
+        int localizacao; /*Flag que indica a localização do token de sincronização, se houver*/
+        char token[30]; /*token retornado pelo Analisador Léxico*/
 
+        /*Relata o erro sintático no arquivo de saída*/
         if(fprintf(saida, " %s na Linha %d", msg, buffer->contadorLinhas) < 0) printf("\nErro na escrita do Arquivo de Saída!");
 
+        /*Verificação da classe do token*/
         if
         (       
                 strcmp(valorLexico, "Identificador")    == 0    ||
@@ -2052,24 +2339,35 @@ int erroSintatico(char* msg, char **conjuntoSincronizacaoLocal, int tamanhoConju
                 strcpy(token, cadeia);     
         
 
+        /*Modo de Pânico, consome tokens do arquivo de entrada até que encontre um token de sincronização ou o fim de arquivo*/
         while(1)
         {
+
+            /*Busca pelo token no Conjunto de Sincronização Local*/
             if(buscaToken(conjuntoSincronizacaoLocal, tamanhoConjuntoLocal, token))
             {
                 localizacao = SEGUIDOR_LOCAL;
                 break;
             }
             
+            /*Busca pelo token no Conjunto de Sincronização do Pai*/
             if(buscaToken(conjuntoSincronizacaoPai, tamanhoConjuntoPai, token))
             {
                 localizacao = SEGUIDOR_PAI;
                 break;
             }
 
-            if(leituraFinalizada(buffer)) break;
-            
+            /*Verificação de fim de arquivo*/
+            if(leituraFinalizada(buffer))
+            {
+                localizacao = SEGUIDOR_PAI;
+                break;
+            }
+
+            /*Consumir token*/
             analisadorLexico(buffer, tabelaPalavrasSimbolosReservados, saida); //Obter Símbolo  
 
+            /*Verificação da classe do token*/
             if
             (       
                 strcmp(valorLexico, "Identificador")    == 0    ||
@@ -2083,10 +2381,28 @@ int erroSintatico(char* msg, char **conjuntoSincronizacaoLocal, int tamanhoConju
                    
         }
 
+        return localizacao;
+
 }
 
 
+/*
+        Descrição:
+                Tratamendo de Erro Sintático utilizando o Modo de Pânico, onde caracteres são consumidos até que se encontre um token de sincronização
+                a partir do qual a Análise Sintática possa ser retomada
 
+
+        Parâmetros:
+                
+                conjuntoSincronizacao: Conjunto de tokens de Sincronização
+                tamanhoConjunto: número de elementos no Conjunto de tokens de Sincronização
+                token: token buscado no Conjunto de Sincronização
+
+        Retorno:
+                1 se o token está no Conjunto de Sincronização e 0 caso contrário
+
+
+*/
 int buscaToken(char **conjuntoSincronizacao, int tamanhoConjunto, char *token)
 {
         int i; /*Iterador*/
@@ -2106,6 +2422,22 @@ int buscaToken(char **conjuntoSincronizacao, int tamanhoConjunto, char *token)
 
 
 
+/*
+        Descrição:
+                Cria um novo Conjunto de tokens de Sincronização unindo dois outros conjuntos, referenciados como base e adicional
+
+        Parâmetros:
+
+                seguidor: Conjunto de tokens de Sincronização base
+                tamanhoSeguidor: número de elementos do Conjunto de tokens de Sincronização base
+                conjuntoAdicional: Conjunto de tokens de Sincronização adicional
+                tamanhoAdicional: número de elementos do Conjunto de tokens de Sincronização adicional
+
+        Retorno:
+                Novo Conjunto de tokens de Sincronização
+
+
+*/
 char** criarSeguidor(char **seguidor, int tamanhoSeguidor, char** conjuntoAdicional, int tamanhoAdicional)
 {
    int i; /*Iterador*/
@@ -2116,29 +2448,46 @@ char** criarSeguidor(char **seguidor, int tamanhoSeguidor, char** conjuntoAdicio
 
    if(novoSeguidor != NULL)
    {
+        /*Copia Conjunto de Seguidores*/
         for(i=0; i < tamanhoSeguidor; i++)
         {
                 novoSeguidor[i] = (char *)malloc(sizeof(char)*(strlen(seguidor[i])+1));
                 strcpy(novoSeguidor[i], seguidor[i]);
         }
         
-        for(i; i < tamanhoSeguidor+tamanhoAdicional; i++)
+        /*Copia Conjunto Adicional*/
+        for(i=tamanhoSeguidor; i < tamanhoSeguidor+tamanhoAdicional; i++)
         {
-                novoSeguidor[i] = (char *)malloc( sizeof(char)* (strlen(conjuntoAdicional[i-tamanhoSeguidor])+1) );
+                novoSeguidor[i] = (char *)malloc(sizeof(char)*(strlen(conjuntoAdicional[i-tamanhoSeguidor])+1) );
                 strcpy(novoSeguidor[i], conjuntoAdicional[i-tamanhoSeguidor]);
         }
 
    }
-   
+
    return novoSeguidor;
 }
 
 
 
+/*
+        Descrição:
+                Liberação de Memória previamente alocada para um Conjunto de Sincronização
+
+
+        Parâmetros:
+                
+                seguidor: Conjunto de tokens de Sincronização
+                tamanhoSeguidor: número de elementos no Conjunto de tokens de Sincronização
+
+        Retorno:
+
+
+*/
 void delSeguidor(char**seguidor, int tamanhoSeguidor)
 {
         int i; /*Iterador*/
 
+        /*Desaloca memória*/
         if(seguidor != NULL)
         {
                 for(i=0; i < tamanhoSeguidor; i++)
@@ -2149,5 +2498,3 @@ void delSeguidor(char**seguidor, int tamanhoSeguidor)
         }
 
 }
-
-
